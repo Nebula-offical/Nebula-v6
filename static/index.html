@@ -3,11 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nebula learning</title>
+  <title>Nebula</title>
   <link rel="icon" type="i/x-icon" href="/i/nebula.png">
-  
-  <script src="/atlas.register.js"></script>
-  
+  <link href="https://fonts.googleapis.com/css2?family=Parkinsans:wght@800&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -17,202 +15,93 @@
       font-family: monospace;
       height: 100vh;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      flex-direction: column;
       overflow: hidden;
     }
 
-    #starfield {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1; 
-    }
-
-    .wrap {
-      width: 420px;
-      padding: 0 1rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    h1 {
-      font-size: 1.1rem;
-      font-weight: normal;
-      color: #fff;
-      margin-bottom: 1.25rem;
-      letter-spacing: 0.02em;
-    }
-
-    h1 span {
-      color: #555;
-      font-size: 0.85rem;
-      margin-left: 0.4rem;
-    }
-
-    form {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    input {
+    iframe {
       flex: 1;
-      background: rgba(26, 26, 26, 0.9);
-      border: 1px solid #2a2a2a;
-      color: #ddd;
-      font-family: monospace;
-      font-size: 0.875rem;
-      padding: 0.5rem 0.75rem;
-      outline: none;
+      width: 100%;
+      border: none;
+      display: block;
     }
 
-    input:focus { border-color: #444; }
-    input::placeholder { color: #444; }
-
-    button {
-      background: #222;
-      border: 1px solid #2a2a2a;
-      color: #aaa;
-      font-family: monospace;
-      font-size: 0.875rem;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-    }
-
-    button:hover { background: #2a2a2a; color: #fff; }
-
-    .links {
-      margin-top: 1rem;
+    nav {
       display: flex;
-      gap: 1rem;
-      font-size: 0.75rem;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      padding: 0.6rem 1.5rem;
+      background: rgba(8, 8, 12, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      flex-shrink: 0;
+      z-index: 10;
+      position: relative;
     }
 
-    .links a {
-      color: #444;
-      text-decoration: none;
+    .nav-logo {
+      position: absolute;
+      left: 1.25rem;
+      font-family: 'Parkinsans', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      color: #fff;
+      letter-spacing: -0.01em;
+      pointer-events: none;
     }
 
-    .links a:hover { color: #888; }
+    nav button {
+      background: transparent;
+      border: none;
+      color: #555;
+      font-family: monospace;
+      font-size: 0.8rem;
+      padding: 0.4rem 1rem;
+      cursor: pointer;
+      border-radius: 999px;
+      transition: background 0.15s, color 0.15s;
+      position: relative;
+    }
+
+    nav button:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: #bbb;
+    }
+
+    nav button.active {
+      background: rgba(88, 88, 195, 0.2);
+      color: #a0a0ff;
+    }
   </style>
 </head>
 <body>
 
-  <canvas id="starfield"></canvas>
+  <iframe id="frame" src="/home.html" name="main"></iframe>
 
-  <div class="wrap">
-    <h1>Nebula<span>powered by atlas</span></h1>
-    <form id="f">
-      <input id="u" type="text" placeholder="search or enter a url." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-    </form>
-    <div class="links">
-      <a href="/g/index.html">games</a>
-    </div>
-  </div>
+  <nav>
+    <div class="nav-logo">Nebula</div>
+    <button id="btn-home" class="active" onclick="loadPage('home')">home</button>
+    <button id="btn-games" onclick="loadPage('games')">games</button>
+  </nav>
 
   <script>
-    const canvas = document.getElementById('starfield');
-    const ctx = canvas.getContext('2d');
-    let stars = [];
-    const mouse = { x: -1000, y: -1000 };
+    function loadPage(page) {
+      const frame = document.getElementById('frame');
+      const btnHome = document.getElementById('btn-home');
+      const btnGames = document.getElementById('btn-games');
 
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      initStars(); 
-    }
-
-    window.addEventListener('resize', resize);
-    window.addEventListener('mousemove', (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    });
-
-    function initStars() {
-      stars = [];
-      for (let i = 0; i < 400; i++) {
-        const x = Math.random() * canvas.width;
-        const y = Math.random() * canvas.height;
-        stars.push({
-          x: x,
-          y: y,
-          originX: x,
-          originY: y,
-          size: Math.random() * 1,
-          opacity: Math.random()
-        });
+      if (page === 'home') {
+        frame.src = '/home.html';
+        btnHome.classList.add('active');
+        btnGames.classList.remove('active');
+      } else {
+        frame.src = '/g/index.html';
+        btnGames.classList.add('active');
+        btnHome.classList.remove('active');
       }
     }
-
-    function draw() {
-      const grad = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 0, canvas.width/2, canvas.height/2, canvas.width);
-      grad.addColorStop(0, '#0a0f1e');
-      grad.addColorStop(1, '#000');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      stars.forEach(star => {
-   
-        const dx = mouse.x - star.x;
-        const dy = mouse.y - star.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        const force = (90 - distance) / 90; 
-
-        if (distance < 100) {
-          const angle = Math.atan2(dy, dx);
-          star.x -= Math.cos(angle) * force * 4;
-          star.y -= Math.sin(angle) * force *4;
-        } else {
-       
-          star.x += (star.originX - star.x) * 0.01;
-          star.y += (star.originY - star.y) * 0.01;
-        }
-
-       
-        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-        ctx.fill();
-
-        star.opacity += (Math.random() - 0.5) * 0.04;
-        if (star.opacity < 0.1) star.opacity = 0.1;
-        if (star.opacity > 1) star.opacity = 1;
-      });
-
-      requestAnimationFrame(draw);
-    }
-
-    resize();
-    draw();
-
--
-    !function(){
-      function enc(u){
-        try{return btoa(encodeURIComponent(u)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=/g,"")}
-        catch(e){return null}
-      }
-      function norm(s){
-        s=s.trim();
-        if(!s)return null;
-        if(/^https?:\/\//i.test(s)){
-          try{new URL(s);return s}catch(e){}
-          return null;
-        }
-        if(/\.|^localhost(:\d+)?$/.test(s)){
-          try{new URL("https://"+s);return"https://"+s}catch(e){}
-        }
-        return"https://duckduckgo.com?q="+encodeURIComponent(s);
-      }
-      document.getElementById("f").onsubmit=function(e){
-        e.preventDefault();
-        var v=document.getElementById("u").value;
-        var n=norm(v);if(!n)return;
-        var c=enc(n);if(!c)return;
-        location.href="/atlas/"+c;
-      };
-    }();
   </script>
 </body>
 </html>

@@ -1,94 +1,99 @@
 <!DOCTYPE html>
-<html>
-  <head>
-       <link rel="icon" type="i/x-icon" href="/i/nebula.png">
-    
-<body bgcolor="black" >
-<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nebula — Games</title>
+  <link rel="icon" type="i/x-icon" href="/i/nebula.png">
   <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      color: #ccc;
+      font-family: monospace;
+      min-height: 100vh;
+      overflow-y: auto;
+    }
+
+    #bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+    }
+
+    .grid {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 1.5rem;
+      justify-content: center;
+    }
+
+    .grid a {
+      display: block;
+      border: 1px solid #222;
+      overflow: hidden;
+      transition: border-color 0.15s;
+    }
+
+    .grid a:hover {
+      border-color: #5858c3;
+    }
+
+    .grid img {
+      display: block;
+      height: 180px;
+      width: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="bg"></div>
+
+  <div class="grid">
+    <a href="/g/achievement-unlocked.html"><img src="/i/achievement-unlocked.png"></a>
+    <a href="/g/achievement-unlocked2.html"><img src="/i/achievement-unlocked2.png"></a>
+    <a href="/g/baseballbros.html"><img src="/i/baseballbros.png"></a>
+    <a href="/g/paperio2.html"><img src="/i/paperio2.png"></a>
+    <a href="/g/spacewaves.html"><img src="/i/spacewaves.png"></a>
+    <a href="/g/crossyroad.html"><img src="/i/crossyroad.png"></a>
+    <a href="/g/drivemad.html"><img src="/i/drivemad.png"></a>
+    <a href="/g/a-dance-of-fire-ice.html"><img src="/i/a-dance-of-fire-ice.png"></a>
+    <a href="/g/Hollow-Knight.html"><img src="/i/hollow-knight.png"></a>
+    <a href="/g/celeste.html"><img src="/i/celeste.png"></a>
+    <a href="../atlas/aHR0cHMlM0ElMkYlMkZzb2xvY2VudHJhbC5vcmc"><img src="/i/sc.gif"></a>
+    <a href="../atlas/aHR0cHMlM0ElMkYlMkZub3dnZy5mdW4lMkZhcHBzJTJGYSUyRjE5OTAwJTJGYi5odG1s"><img src="/i/rb.png"></a>
+    <a href="/t9os.html"><img src="/i/t9os.png"></a>
+    <a href="/atlas/aHR0cHMlM0ElMkYlMkZicm9taW5lLmNj"><img src="https://avatars.githubusercontent.com/u/229838696?s=400&u=c80764755c5ab1579e70e1c2ffaa32309a28d2b5&v=4"></a>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.cells.min.js"></script>
+  <script>
+    VANTA.CELLS({
+      el: "#bg",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      scale: 1.00,
+      color1: 0x0,
+      color2: 0x5858c3,
+      size: 2.10,
+      speed: 1.40
+    });
+
+    document.querySelectorAll('.grid a').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        location.href = '/iframe.html?url=' + encodeURIComponent(a.href);
+      });
+    });
+  </script>
 </body>
 </html>
-</body>
-    <title>
-      Nebula learning
-    </title>
-     <body>
-      <style>
-   
-        body {
-  font-family: 'Comic Sans MS', cursive;
-}
-       
-      </style>
-  <style>
-  
-h1 {text-align: center;}
-p {text-align: center;}
-div {text-align: center;}
-</style>
-     
-    </body>
-  
-
-  </head>
- 
-<body
-
-  <a  href = "/g/achievement-unlocked.html">   
- <img src ="/i/achievement-unlocked.png" height="200">
-  </a>
-      
-  
-
-  <a  href = "/g/achievement-unlocked2.html"> 
-    <img src ="/i/achievement-unlocked2.png" height ="200">
-  </a>
- 
-<a href = "/g/baseballbros.html">  
-  <img src ="/i/baseballbros.png" height ="200">
-</a>
-
-  <a href = "/g/paperio2.html"> 
-    <img src ="/i/paperio2.png" height ="200">
-  </a>
-  
-
-<a href = "/g/spacewaves.html"> 
-  <img src ="/i/spacewaves.png" height ="200">
-</a>
-
-<a href = "/g/crossyroad.html">
-  <img src ="/i/crossyroad.png" height="200">
-<a
-href ="/g/drivemad.html">
-  <img src ="/i/drivemad.png" height="200">
-<a
-href ="/g/a-dance-of-fire-ice.html">
-  <img src ="/i/a-dance-of-fire-ice.png" height="200">
-  </a>
- <a href ="/g/Hollow-Knight.html">
-   <img src ="/i/hollow-knight.png" height ="200">
- </a>
-  <a href ="/g/celeste.html">
-    <img src ="/i/celeste.png" height ="200">
-  </a>
-  <a href ="../atlas/aHR0cHMlM0ElMkYlMkZzb2xvY2VudHJhbC5vcmc">
-    <img src ="/i/sc.gif" height="200">
-  </a>
-  <a href ="../atlas/aHR0cHMlM0ElMkYlMkZub3dnZy5mdW4lMkZhcHBzJTJGYSUyRjE5OTAwJTJGYi5odG1s">
-    <img src ="/i/rb.png" height="200">
-  </a>
-  <a href ="/t9os.html">
-    <img src ="/i/t9os.png" height="200">
-  </a>
-  <a href ="/atlas/aHR0cHMlM0ElMkYlMkZicm9taW5lLmNj">
-    <img src ="https://avatars.githubusercontent.com/u/229838696?s=400&u=c80764755c5ab1579e70e1c2ffaa32309a28d2b5&v=4" height="200">
-  </a>
-  
-<div
-  
-style="overflow-y:scroll;"
-  >
-
