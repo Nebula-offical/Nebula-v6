@@ -79,12 +79,13 @@
 <body>
 
   <iframe id="frame" src="/home.html" name="main"></iframe>
-
-  <nav>
-    <div class="nav-logo">Nebula</div>
-    <button id="btn-home" class="active" onclick="loadPage('home')">home</button>
-    <button id="btn-games" onclick="loadPage('games')">games</button>
-  </nav>
+<nav>
+ <div class="nav-logo">
+  <img src="/i/nebula-logo.png" alt="Nebula Logo" style="height: 30px;">
+</div>
+<button id="btn-home" class="active" onclick="loadPage('home')">home</button>
+<button id="btn-games" onclick="loadPage('games')">games</button>
+</nav>
 
   <script>
     function loadPage(page) {
