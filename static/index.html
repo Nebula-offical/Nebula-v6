@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Choose a subject, i-ready</title>
+  <title>Choose a subject, i-Ready</title>
   <link rel="icon" type="i/x-icon" href="/i/nebula.png">
-  <link href="https://fonts.googleapis.com/css2?family=Parkinsans:wght@800&display=swap" rel="stylesheet">
-  <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+  <link href="https://googleapis.com" rel="stylesheet">
+  <script defer src="https://vercel-insights.com"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -63,7 +63,6 @@
       cursor: pointer;
       border-radius: 999px;
       transition: background 0.15s, color 0.15s;
-      position: relative;
     }
 
     nav button:hover {
@@ -80,29 +79,29 @@
 <body>
 
   <iframe id="frame" src="/home.html" name="main"></iframe>
-<nav>
- <div class="nav-logo">
-  <img src="/i/nebula-logo.png" alt="Nebula Logo" style="height: 30px;">
-</div>
-<button id="btn-home" class="active" onclick="loadPage('home')">home</button>
-<button id="btn-games" onclick="loadPage('games')">games</button>
-</nav>
+
+  <nav>
+    <div class="nav-logo">
+      <img src="/i/nebula-logo.png" alt="Nebula Logo" style="height: 30px;">
+    </div>
+
+  
+    <button id="btn-home" class="active" onclick="loadPage('/home.html', this)">home</button>
+    <button id="btn-games" onclick="loadPage('/g/index.html', this)">games</button>
+    <button id="btn-links" onclick="loadPage('/links.html', this)">links</button>
+  </nav>
 
   <script>
-    function loadPage(page) {
+    function loadPage(url, btn) {
       const frame = document.getElementById('frame');
-      const btnHome = document.getElementById('btn-home');
-      const btnGames = document.getElementById('btn-games');
+      
+      frame.src = url;
+      
+      document.querySelectorAll('nav button').forEach(button => {
+        button.classList.remove('active');
+      });
 
-      if (page === 'home') {
-        frame.src = '/home.html';
-        btnHome.classList.add('active');
-        btnGames.classList.remove('active');
-      } else {
-        frame.src = '/g/index.html';
-        btnGames.classList.add('active');
-        btnHome.classList.remove('active');
-      }
+      btn.classList.add('active');
     }
   </script>
 </body>
