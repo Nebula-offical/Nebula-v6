@@ -23,6 +23,28 @@
       z-index: -1;
     }
 
+    /* Search Bar Styling */
+    .search-container {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 1.5rem;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+    }
+
+    #gameSearch {
+      padding: 10px 20px;
+      width: 300px;
+      border-radius: 20px;
+      border: 1px solid #5858c3;
+      background: #111;
+      color: #fff;
+      font-family: monospace;
+      outline: none;
+    }
+
     .grid {
       position: relative;
       z-index: 1;
@@ -38,7 +60,7 @@
       border: 1px solid #222;
       overflow: hidden;
       transition: border-color 0.15s;
-      border-radius: 30px; 
+      border-radius: 30px; /* Kept from previous fix */
     }
 
     .grid a:hover {
@@ -49,7 +71,7 @@
       display: block;
       height: 180px;
       width: auto;
-      border-radius: 30px; 
+      border-radius: 30px; /* Kept from previous fix */
     }
   </style>
 </head>
@@ -57,38 +79,45 @@
 
   <div id="bg"></div>
 
-  <div class="grid">
-    <a href="/g/achievement-unlocked.html"><img src="/i/achievement-unlocked.png"></a>
-    <a href="/g/achievement-unlocked2.html"><img src="/i/achievement-unlocked2.png"></a>
-    <a href="/g/baseballbros.html"><img src="/i/baseballbros.png"></a>
-    <a href="/g/paperio2.html"><img src="/i/paperio2.png"></a>
-    <a href="/g/spacewaves.html"><img src="/i/spacewaves.png"></a>
-    <a href="/g/crossyroad.html"><img src="/i/crossyroad.png"></a>
-    <a href="/g/drivemad.html"><img src="/i/drivemad.png"></a>
-    <a href="/g/a-dance-of-fire-ice.html"><img src="/i/a-dance-of-fire-ice.png"></a>
-    <a href="/g/Hollow-Knight.html"><img src="/i/hollow-knight.png"></a>
-    <a href="/g/celeste.html"><img src="/i/celeste.png"></a>
-    <a href="../atlas/aHR0cHMlM0ElMkYlMkZzb2xvY2VudHJhbC5vcmc"><img src="/i/sc.gif"></a>
-    <a href="../atlas/aHR0cHM6Ly9zb2xvY2VudHJhbC5vcmcvcGxheT9odHRwczovL2Vhc3lmdW4uZ2cvZW1iZWQvcm9ibG94Lmh0bWwrcw=="><img src="/i/rb.png"></a>
-    <a href="/atlas/aHR0cHMlM0ElMkYlMkZ0OW9zLnNwYWNlJTJGdDlvcy5odG1s"><img src="/i/t9os.png"></a>
-    <a href="/atlas/aHR0cHMlM0ElMkYlMkZicm9taW5lLmNj"><img src="https://githubusercontent.com"></a>
-    <a href="/g/ragdoll-arch.html"><img src="/i/ragdoll-arch.png"></a>
-    <a href="/g/ragdoll-hit.html"><img src="/i/ragdoll-hit.png"></a>
-    <a href="/g/cookieclicker.html"><img src="/i/cookieclicker.png"></a>   
-    <a href="/g/geo-dash.html"><img src="/i/geo-dash.png"></a>
-    <a href="/g/fnaf.html"><img src="/i/fnaf.png"></a>
-    <a href="/g/fnaf2.html"><img src="/i/fnaf2.png"></a>
-    <a href="/g/fnaf3.html"><img src="/i/fnaf3.png"></a>
-    <a href="/g/fnaf4-halloween"><img src="/i/fnaf4-halloween.png"></a>
-    <a href="/g/fnaf-sister.png"><img src="/i/fnaf-sister.png"></a>
-    <a href="/g/madalin-3.html"><img src="/i/madalin-3.png"></a>
-    <a href="/g/monster-tracks.html"><img src="/i/monster-tracks.png"></a>
-    <a href="/g/dh.html"><img src="/i/dh.png"></a>
+  <!-- New Search Section -->
+  <div class="search-container">
+    <input type="text" id="gameSearch" placeholder="Search games..." onkeyup="filterGames()">
   </div>
+
+  <div class="grid" id="gameGrid">
+    <a href="/g/achievement-unlocked.html"><img src="/i/achievement-unlocked.png" alt="Achievement Unlocked"></a>
+    <a href="/g/achievement-unlocked2.html"><img src="/i/achievement-unlocked2.png" alt="Achievement Unlocked 2"></a>
+    <a href="/g/baseballbros.html"><img src="/i/baseballbros.png" alt="Baseball Bros"></a>
+    <a href="/g/paperio2.html"><img src="/i/paperio2.png" alt="Paper.io 2"></a>
+    <a href="/g/spacewaves.html"><img src="/i/spacewaves.png" alt="Space Waves"></a>
+    <a href="/g/crossyroad.html"><img src="/i/crossyroad.png" alt="Crossy Road"></a>
+    <a href="/g/drivemad.html"><img src="/i/drivemad.png" alt="Drive Mad"></a>
+    <a href="/g/a-dance-of-fire-ice.html"><img src="/i/a-dance-of-fire-ice.png" alt="A Dance of Fire and Ice"></a>
+    <a href="/g/Hollow-Knight.html"><img src="/i/hollow-knight.png" alt="Hollow Knight"></a>
+    <a href="/g/celeste.html"><img src="/i/celeste.png" alt="Celeste"></a>
+    <a href="../atlas/aHR0cHMlM0ElMkYlMkZzb2xvY2VudHJhbC5vcmc"><img src="/i/sc.gif" alt="Solo Central"></a>
+    <a href="../atlas/aHR0cHM6Ly9zb2xvY2VudHJhbC5vcmcvcGxheT9odHRwczovL2Vhc3lmdW4uZ2cvZW1iZWQvcm9ibG94Lmh0bWwrcw=="><img src="/i/rb.png" alt="Roblox"></a>
+    <a href="/atlas/aHR0cHMlM0ElMkYlMkZ0OW9zLnNwYWNlJTJGdDlvcy5odG1s"><img src="/i/t9os.png" alt="T9OS"></a>
+    <a href="/atlas/aHR0cHMlM0ElMkYlMkZicm9taW5lLmNj"><img src="https://githubusercontent.com" alt="Bromine Network"></a>
+    <a href="/g/ragdoll-arch.html"><img src="/i/ragdoll-arch.png" alt="Ragdoll Arch"></a>
+    <a href="/g/ragdoll-hit.html"><img src="/i/ragdoll-hit.png" alt="Ragdoll Hit"></a>
+    <a href="/g/cookieclicker.html"><img src="/i/cookieclicker.png" alt="Cookie Clicker"></a>   
+    <a href="/g/geo-dash.html"><img src="/i/geo-dash.png" alt="Geometry Dash"></a>
+    <a href="/g/fnaf.html"><img src="/i/fnaf.png" alt="FNAF"></a>
+    <a href="/g/fnaf2.html"><img src="/i/fnaf2.png" alt="FNAF 2"></a>
+    <a href="/g/fnaf3.html"><img src="/i/fnaf3.png" alt="FNAF 3"></a>
+    <a href="/g/fnaf4-halloween"><img src="/i/fnaf4-halloween.png" alt="FNAF 4 Halloween"></a>
+    <a href="/g/fnaf-sister.png"><img src="/i/fnaf-sister.png" alt="FNAF Sister Location"></a>
+    <a href="/g/madalin-3.html"><img src="/i/madalin-3.png" alt="Madalin Stunt Cars 3"></a>
+    <a href="/g/monster-tracks.html"><img src="/i/monster-tracks.png" alt="Monster Tracks"></a>
+    <a href="/g/dh.html"><img src="/i/dh.png" alt="Drift Hunters"></a>
+  </div>
+
 
   <script src="https://cloudflare.com"></script>
   <script src="https://jsdelivr.net"></script>
   <script>
+
     VANTA.CELLS({
       el: "#bg",
       mouseControls: true,
@@ -103,12 +132,28 @@
       speed: 1.40
     });
 
+
     document.querySelectorAll('.grid a').forEach(a => {
       a.addEventListener('click', e => {
         e.preventDefault();
         location.href = '/iframe.html?url=' + encodeURIComponent(a.href);
       });
     });
+
+
+    function filterGames() {
+      let input = document.getElementById('gameSearch').value.toLowerCase();
+      let links = document.querySelectorAll('.grid a');
+      
+      links.forEach(link => {
+        let altText = link.querySelector('img').alt.toLowerCase();
+        if (altText.includes(input)) {
+          link.style.display = "";
+        } else {
+          link.style.display = "none";
+        }
+      });
+    }
   </script>
 </body>
 </html>
