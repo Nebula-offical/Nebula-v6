@@ -14,6 +14,7 @@
       font-family: monospace;
       min-height: 100vh;
       overflow-y: auto;
+      background-color: #000; 
     }
 
     #bg {
@@ -23,14 +24,13 @@
       z-index: -1;
     }
 
-    /* Search Bar Styling */
     .search-container {
       position: sticky;
       top: 0;
       z-index: 10;
       padding: 1.5rem;
       text-align: center;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.7);
       backdrop-filter: blur(5px);
     }
 
@@ -60,7 +60,7 @@
       border: 1px solid #222;
       overflow: hidden;
       transition: border-color 0.15s;
-      border-radius: 30px; /* Kept from previous fix */
+      border-radius: 30px;
     }
 
     .grid a:hover {
@@ -71,7 +71,7 @@
       display: block;
       height: 180px;
       width: auto;
-      border-radius: 30px; /* Kept from previous fix */
+      border-radius: 30px;
     }
   </style>
 </head>
@@ -79,7 +79,6 @@
 
   <div id="bg"></div>
 
-  <!-- New Search Section -->
   <div class="search-container">
     <input type="text" id="gameSearch" placeholder="Search games..." onkeyup="filterGames()">
   </div>
@@ -98,7 +97,7 @@
     <a href="../atlas/aHR0cHMlM0ElMkYlMkZzb2xvY2VudHJhbC5vcmc"><img src="/i/sc.gif" alt="Solo Central"></a>
     <a href="../atlas/aHR0cHM6Ly9zb2xvY2VudHJhbC5vcmcvcGxheT9odHRwczovL2Vhc3lmdW4uZ2cvZW1iZWQvcm9ibG94Lmh0bWwrcw=="><img src="/i/rb.png" alt="Roblox"></a>
     <a href="/atlas/aHR0cHMlM0ElMkYlMkZ0OW9zLnNwYWNlJTJGdDlvcy5odG1s"><img src="/i/t9os.png" alt="T9OS"></a>
-    <a href="/atlas/aHR0cHMlM0ElMkYlMkZicm9taW5lLmNj"><img src="https://githubusercontent.com" alt="Bromine Network"></a>
+    <a href="/atlas/aHR0cHMlM0ElMkYlMkZicm9taW5lLmNj"><img src="https://githubusercontent.com" alt="Bromine"></a>
     <a href="/g/ragdoll-arch.html"><img src="/i/ragdoll-arch.png" alt="Ragdoll Arch"></a>
     <a href="/g/ragdoll-hit.html"><img src="/i/ragdoll-hit.png" alt="Ragdoll Hit"></a>
     <a href="/g/cookieclicker.html"><img src="/i/cookieclicker.png" alt="Cookie Clicker"></a>   
@@ -110,28 +109,37 @@
     <a href="/g/fnaf-sister.png"><img src="/i/fnaf-sister.png" alt="FNAF Sister Location"></a>
     <a href="/g/madalin-3.html"><img src="/i/madalin-3.png" alt="Madalin Stunt Cars 3"></a>
     <a href="/g/monster-tracks.html"><img src="/i/monster-tracks.png" alt="Monster Tracks"></a>
-    <a href="/g/dh.html"><img src="/i/dh.png" alt="Drift Hunters"></a>
+    <a href="/g/dh.html"><img src="/i/dh.png" alt="Doge Hop"></a>
   </div>
 
-
-  <script src="https://cloudflare.com"></script>
-  <script src="https://jsdelivr.net"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+  <script src="https://vantajs.com"></script>
   <script>
 
-    VANTA.CELLS({
-      el: "#bg",
-      mouseControls: true,
-      touchControls: true,
-      gyroControls: false,
-      minHeight: 200.00,
-      minWidth: 200.00,
-      scale: 1.00,
-      color1: 0x0,
-      color2: 0x5858c3,
-      size: 2.10,
-      speed: 1.40
-    });
+    window.onload = function() {
+      VANTA.CELLS({
+        el: "#bg",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.00,
+        minWidth: 200.00,
+        scale: 1.00,
+        color1: 0x0,
+        color2: 0x5858c3,
+        size: 2.10,
+        speed: 1.40
+      });
+    };
 
+    function filterGames() {
+      let input = document.getElementById('gameSearch').value.toLowerCase();
+      let links = document.querySelectorAll('.grid a');
+      links.forEach(link => {
+        let altText = link.querySelector('img').alt.toLowerCase();
+        link.style.display = altText.includes(input) ? "" : "none";
+      });
+    }
 
     document.querySelectorAll('.grid a').forEach(a => {
       a.addEventListener('click', e => {
@@ -139,21 +147,6 @@
         location.href = '/iframe.html?url=' + encodeURIComponent(a.href);
       });
     });
-
-
-    function filterGames() {
-      let input = document.getElementById('gameSearch').value.toLowerCase();
-      let links = document.querySelectorAll('.grid a');
-      
-      links.forEach(link => {
-        let altText = link.querySelector('img').alt.toLowerCase();
-        if (altText.includes(input)) {
-          link.style.display = "";
-        } else {
-          link.style.display = "none";
-        }
-      });
-    }
   </script>
 </body>
 </html>
