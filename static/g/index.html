@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nebula — Games</title>
   <link rel="icon" type="i/x-icon" href="/i/nebula.png">
-  <script defer src="https://vercel-insights.com"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -14,7 +13,7 @@
       font-family: monospace;
       min-height: 100vh;
       overflow-y: auto;
-      background-color: #000; 
+      background-color: #000;
     }
 
     #bg {
@@ -31,18 +30,23 @@
       padding: 1.5rem;
       text-align: center;
       background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(5px);
+      backdrop-filter: blur(10px);
     }
 
     #gameSearch {
-      padding: 10px 20px;
-      width: 300px;
-      border-radius: 20px;
+      padding: 12px 24px;
+      width: 320px;
+      border-radius: 30px;
       border: 1px solid #5858c3;
       background: #111;
       color: #fff;
       font-family: monospace;
       outline: none;
+      transition: box-shadow 0.2s;
+    }
+
+    #gameSearch:focus {
+      box-shadow: 0 0 10px #5858c3;
     }
 
     .grid {
@@ -59,12 +63,13 @@
       display: block;
       border: 1px solid #222;
       overflow: hidden;
-      transition: border-color 0.15s;
+      transition: border-color 0.15s, transform 0.15s;
       border-radius: 30px;
     }
 
     .grid a:hover {
       border-color: #5858c3;
+      transform: scale(1.03);
     }
 
     .grid img {
@@ -73,6 +78,15 @@
       width: auto;
       border-radius: 30px;
     }
+
+ 
+    #noResults {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+      font-size: 1.2rem;
+      color: #5858c3;
+    }
   </style>
 </head>
 <body>
@@ -80,14 +94,16 @@
   <div id="bg"></div>
 
   <div class="search-container">
-    <input type="text" id="gameSearch" placeholder="Search games..." onkeyup="filterGames()">
+    <input type="text" id="gameSearch" placeholder="Search for a game..." onkeyup="filterGames()">
   </div>
+
+  <div id="noResults">No games found matching your search.</div>
 
   <div class="grid" id="gameGrid">
     <a href="/g/achievement-unlocked.html"><img src="/i/achievement-unlocked.png" alt="Achievement Unlocked"></a>
     <a href="/g/achievement-unlocked2.html"><img src="/i/achievement-unlocked2.png" alt="Achievement Unlocked 2"></a>
     <a href="/g/baseballbros.html"><img src="/i/baseballbros.png" alt="Baseball Bros"></a>
-    <a href="/g/paperio2.html"><img src="/i/paperio2.png" alt="Paper.io 2"></a>
+    <a href="/g/paperio2.html"><img src="/i/paperio2.png" alt="Paper IO 2"></a>
     <a href="/g/spacewaves.html"><img src="/i/spacewaves.png" alt="Space Waves"></a>
     <a href="/g/crossyroad.html"><img src="/i/crossyroad.png" alt="Crossy Road"></a>
     <a href="/g/drivemad.html"><img src="/i/drivemad.png" alt="Drive Mad"></a>
@@ -105,18 +121,19 @@
     <a href="/g/fnaf.html"><img src="/i/fnaf.png" alt="FNAF"></a>
     <a href="/g/fnaf2.html"><img src="/i/fnaf2.png" alt="FNAF 2"></a>
     <a href="/g/fnaf3.html"><img src="/i/fnaf3.png" alt="FNAF 3"></a>
-    <a href="/g/fnaf4-halloween"><img src="/i/fnaf4-halloween.png" alt="FNAF 4 Halloween"></a>
-    <a href="/g/fnaf-sister.png"><img src="/i/fnaf-sister.png" alt="FNAF Sister Location"></a>
+    <a href="/g/fnaf4-halloween"><img src="/i/fnaf4-halloween.png" alt="FNAF 4"></a>
+    <a href="/g/fnaf-sister.png"><img src="/i/fnaf-sister.png" alt="FNAF Sister"></a>
     <a href="/g/madalin-3.html"><img src="/i/madalin-3.png" alt="Madalin Stunt Cars 3"></a>
     <a href="/g/monster-tracks.html"><img src="/i/monster-tracks.png" alt="Monster Tracks"></a>
     <a href="/g/dh.html"><img src="/i/dh.png" alt="Doge Hop"></a>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
-  <script src="https://vantajs.com"></script>
+
+  <script src="https://cloudflare.com"></script>
+  <script src="https://jsdelivr.net"></script>
   <script>
 
-    window.onload = function() {
+    try {
       VANTA.CELLS({
         el: "#bg",
         mouseControls: true,
@@ -130,16 +147,28 @@
         size: 2.10,
         speed: 1.40
       });
-    };
+    } catch (e) { console.error(e); }
+
 
     function filterGames() {
-      let input = document.getElementById('gameSearch').value.toLowerCase();
-      let links = document.querySelectorAll('.grid a');
+      const input = document.getElementById('gameSearch').value.toLowerCase();
+      const links = document.querySelectorAll('.grid a');
+      const noResults = document.getElementById('noResults');
+      let foundAny = false;
+      
       links.forEach(link => {
-        let altText = link.querySelector('img').alt.toLowerCase();
-        link.style.display = altText.includes(input) ? "" : "none";
+        const title = link.querySelector('img').alt.toLowerCase();
+        if (title.includes(input)) {
+          link.style.display = "block";
+          foundAny = true;
+        } else {
+          link.style.display = "none";
+        }
       });
+
+      noResults.style.display = foundAny ? "none" : "block";
     }
+
 
     document.querySelectorAll('.grid a').forEach(a => {
       a.addEventListener('click', e => {
