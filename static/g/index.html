@@ -13,14 +13,14 @@
       font-family: monospace;
       min-height: 100vh;
       overflow-y: auto;
-      background-color: #000;
+      background-color: #000; 
     }
 
     #bg {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      z-index: -1;
+      z-index: -1; 
     }
 
     .search-container {
@@ -42,11 +42,6 @@
       color: #fff;
       font-family: monospace;
       outline: none;
-      transition: box-shadow 0.2s;
-    }
-
-    #gameSearch:focus {
-      box-shadow: 0 0 10px #5858c3;
     }
 
     .grid {
@@ -79,7 +74,6 @@
       border-radius: 30px;
     }
 
- 
     #noResults {
       display: none;
       text-align: center;
@@ -97,7 +91,7 @@
     <input type="text" id="gameSearch" placeholder="Search for a game..." onkeyup="filterGames()">
   </div>
 
-  <div id="noResults">Sorry we dont have that game</div>
+  <div id="noResults">Sorry we don't have that one</div>
 
   <div class="grid" id="gameGrid">
     <a href="/g/achievement-unlocked.html"><img src="/i/achievement-unlocked.png" alt="Achievement Unlocked"></a>
@@ -122,33 +116,33 @@
     <a href="/g/fnaf2.html"><img src="/i/fnaf2.png" alt="FNAF 2"></a>
     <a href="/g/fnaf3.html"><img src="/i/fnaf3.png" alt="FNAF 3"></a>
     <a href="/g/fnaf4-halloween"><img src="/i/fnaf4-halloween.png" alt="FNAF 4"></a>
-    <a href="/g/fnaf-sister.html"><img src="/i/fnaf-sister.png" alt="FNAF Sister"></a>
+    <a href="/g/fnaf-sister.png"><img src="/i/fnaf-sister.png" alt="FNAF Sister"></a>
     <a href="/g/madalin-3.html"><img src="/i/madalin-3.png" alt="Madalin Stunt Cars 3"></a>
     <a href="/g/monster-tracks.html"><img src="/i/monster-tracks.png" alt="Monster Tracks"></a>
     <a href="/g/dh.html"><img src="/i/dh.png" alt="Doge Hop"></a>
   </div>
 
-
   <script src="https://cloudflare.com"></script>
   <script src="https://jsdelivr.net"></script>
   <script>
 
-    try {
-      VANTA.CELLS({
-        el: "#bg",
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.00,
-        minWidth: 200.00,
-        scale: 1.00,
-        color1: 0x0,
-        color2: 0x5858c3,
-        size: 2.10,
-        speed: 1.40
-      });
-    } catch (e) { console.error(e); }
-
+    window.addEventListener('DOMContentLoaded', () => {
+      if (typeof VANTA !== 'undefined') {
+        VANTA.CELLS({
+          el: "#bg",
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          color1: 0x0,
+          color2: 0x5858c3,
+          size: 2.10,
+          speed: 1.40
+        });
+      }
+    });
 
     function filterGames() {
       const input = document.getElementById('gameSearch').value.toLowerCase();
@@ -165,10 +159,8 @@
           link.style.display = "none";
         }
       });
-
       noResults.style.display = foundAny ? "none" : "block";
     }
-
 
     document.querySelectorAll('.grid a').forEach(a => {
       a.addEventListener('click', e => {
