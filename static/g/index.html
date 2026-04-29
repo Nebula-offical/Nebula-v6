@@ -6,43 +6,21 @@
   <title>Nebula — Games</title>
   <link rel="icon" type="i/x-icon" href="/i/nebula.png">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; cursor: none; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       color: #ccc;
       font-family: monospace;
       min-height: 100vh;
       overflow-y: auto;
-      background-color: #000;
+  
     }
 
     #bg {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      z-index: -1;
-    }
-
-   
-    .cursor-dot {
-      width: 6px; height: 6px;
-      background-color: #fff;
-      position: fixed;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-    }
-
-    .cursor-outline {
-      width: 30px; height: 30px;
-      border: 2px solid #5858c3;
-      position: fixed;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9998;
-      transform: translate(-50%, -50%);
-      transition: width 0.2s, height 0.2s, border-color 0.2s;
+      z-index: -1; /* Ensures it stays behind everything */
     }
 
     .search-container {
@@ -99,32 +77,21 @@
     #noResults {
       display: none;
       text-align: center;
-      padding: 3rem;
-      font-size: 1.4rem;
-      font-weight: bold;
+      padding: 2rem;
+      font-size: 1.2rem;
       color: #5858c3;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      animation: shimmer 2s infinite alternate;
-    }
-
-    @keyframes shimmer {
-      from { text-shadow: 0 0 5px #5858c3, 0 0 10px #5858c3; opacity: 0.5; }
-      to { text-shadow: 0 0 20px #5858c3, 0 0 30px #fff; opacity: 1; }
     }
   </style>
 </head>
 <body>
 
   <div id="bg"></div>
-  <div class="cursor-dot" id="cursorDot"></div>
-  <div class="cursor-outline" id="cursorOutline"></div>
 
   <div class="search-container">
-    <input type="text" id="gameSearch" placeholder="Search systems..." onkeyup="filterGames()">
+    <input type="text" id="gameSearch" placeholder="Search for a game..." onkeyup="filterGames()">
   </div>
 
-  <div id="noResults""we don't have that one sorry</div>
+  <div id="noResults">sorry we don't have that one</div>
 
   <div class="grid" id="gameGrid">
     <a href="/g/achievement-unlocked.html"><img src="/i/achievement-unlocked.png" alt="Achievement Unlocked"></a>
@@ -140,7 +107,7 @@
     <a href="../atlas/aHR0cHMlM0ElMkYlMkZzb2xvY2VudHJhbC5vcmc"><img src="/i/sc.gif" alt="Solo Central"></a>
     <a href="../atlas/aHR0cHM6Ly9zb2xvY2VudHJhbC5vcmcvcGxheT9odHRwczovL2Vhc3lmdW4uZ2cvZW1iZWQvcm9ibG94Lmh0bWwrcw=="><img src="/i/rb.png" alt="Roblox"></a>
     <a href="/atlas/aHR0cHMlM0ElMkYlMkZ0OW9zLnNwYWNlJTJGdDlvcy5odG1s"><img src="/i/t9os.png" alt="T9OS"></a>
-    <a href="/atlas/aHR0cHMlM0ElMkYlMkZicm9taW5lLmNj"><img src="https://githubusercontent.com" alt="Bromine Network"></a>
+    <a href="/atlas/aHR0cHMlM0ElMkYlMkZicm9taW5lLmNj"><img src="https://githubusercontent.com" alt="Bromine"></a>
     <a href="/g/ragdoll-arch.html"><img src="/i/ragdoll-arch.png" alt="Ragdoll Arch"></a>
     <a href="/g/ragdoll-hit.html"><img src="/i/ragdoll-hit.png" alt="Ragdoll Hit"></a>
     <a href="/g/cookieclicker.html"><img src="/i/cookieclicker.png" alt="Cookie Clicker"></a>   
@@ -156,10 +123,10 @@
   </div>
 
   <script src="https://cloudflare.com"></script>
+
   <script src="https://jsdelivr.net"></script>
   
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
+  <script>   window.addEventListener('DOMContentLoaded', () => {
       if (typeof VANTA !== 'undefined') {
         VANTA.CELLS({
           el: "#bg",
@@ -175,26 +142,6 @@
           speed: 1.40
         });
       }
-    });
-
-    const dot = document.getElementById('cursorDot');
-    const outline = document.getElementById('cursorOutline');
-    window.addEventListener('mousemove', (e) => {
-      dot.style.left = e.clientX + 'px';
-      dot.style.top = e.clientY + 'px';
-      setTimeout(() => {
-        outline.style.left = e.clientX + 'px';
-        outline.style.top = e.clientY + 'px';
-      }, 50);
-    });
-
-    document.querySelectorAll('a, input').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        outline.style.width = '50px'; outline.style.height = '50px'; outline.style.borderColor = '#fff';
-      });
-      el.addEventListener('mouseleave', () => {
-        outline.style.width = '30px'; outline.style.height = '30px'; outline.style.borderColor = '#5858c3';
-      });
     });
 
     function filterGames() {
