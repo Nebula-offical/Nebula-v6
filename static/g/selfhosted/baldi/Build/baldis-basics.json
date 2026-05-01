@@ -1,7 +1,7 @@
 {
 "companyName": "Bromine Network",
 "productName": "Baldi's Basics Classic",
-"dataUrl": "baldis-basics.data.unityweb",
+"dataUrl": "https://raw.githubusercontent.com/unblockings/ports/main/Build/baldis-basics.data.unityweb",
 "wasmCodeUrl": "baldis-basics.wasm.code.unityweb",
 "wasmFrameworkUrl": "baldis-basics.wasm.framework.unityweb",
 "TOTAL_MEMORY": 33554432,
