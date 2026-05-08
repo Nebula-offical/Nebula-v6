@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokemon HeartGold - Fullscreen Fix</title>
+    <title>Pokemon HeartGold - Fullscreen Proxy Fix</title>
     <style>
       body, html {
         margin: 0; padding: 0; width: 100vw; height: 100vh;
@@ -27,8 +27,8 @@
 <body>
     <div id="game-container">
       <div id="loading-overlay">
-        <div id="loading-progress">Initializing...</div>
-        <div id="first-time">If it stays at 0/7, the server is busy.</div>
+        <div id="loading-progress">Loading: 0/7</div>
+        <div id="first-time">Loading through Nebula Proxy...</div>
       </div>
       <div id="game"></div>
     </div>
@@ -42,25 +42,26 @@
         max: 7,
       };
 
-      // Added a CORS proxy to bypass security blocks
-      const proxy = "https://herokuapp.com"; 
+      // Set your proxy URL here. Note: We use a generic CORS proxy format 
+      // where the target URL is appended to your proxy base.
+      const proxyBase = "https://nebula-v6-proxy.vercel.app"; 
 
       async function mergeFiles(fileParts, cb) {
         let buffers = [];
         for (let i = 0; i < fileParts.length; i++) {
           try {
-            // Using the proxy if the direct link fails
-            const response = await fetch(fileParts[i]);
-            if (!response.ok) throw new Error("Network response was not ok");
+            // Route the request through your proxy to bypass CORS/Network blocks
+            const proxyUrl = proxyBase + encodeURIComponent(fileParts[i]);
+            const response = await fetch(proxyUrl);
+            
+            if (!response.ok) throw new Error("Proxy fetch failed");
+            
             const data = await response.arrayBuffer();
             buffers.push(data);
             if (cb) cb(i + 1);
           } catch (e) {
-            console.warn("Retrying with proxy...");
-            const res = await fetch(proxy + fileParts[i]);
-            const data = await res.arrayBuffer();
-            buffers.push(data);
-            if (cb) cb(i + 1);
+            console.error("Error fetching part " + (i + 1), e);
+            throw e;
           }
         }
         return URL.createObjectURL(new Blob(buffers));
@@ -87,7 +88,6 @@
         window.EJS_core = window.gameconfig.core;
         window.EJS_gameName = window.gameconfig.name;
         window.EJS_startOnLoaded = true;
-        // Official CDN path for emulator data
         window.EJS_pathtodata = "https://emulatorjs.org";
         window.EJS_gameUrl = gameUrl;
 
@@ -95,8 +95,9 @@
         script.src = "https://emulatorjs.org";
         document.body.appendChild(script);
       })
-      .catch(() => {
-        document.getElementById("loading-progress").textContent = "Error: Blocked by Browser Security";
+      .catch((err) => {
+        document.getElementById("loading-progress").textContent = "Proxy Error: Could not reach game files.";
+        console.error("Game Load Failure:", err);
       });
     </script>
 </body>
