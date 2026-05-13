@@ -15,7 +15,8 @@
       console.error("[Atlas] SW registration failed:", err);
     });
 })();
-alert("i fixed my site finally roman easton should be locked out")
+alert("i fixed my site finally roman easton should be locked out for good")
 alert("solocentral sucks")
+alert("this is 100% iready")
 
 
