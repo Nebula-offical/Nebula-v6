@@ -1,9 +1,19 @@
-if (navigator.serviceWorker) {
-  navigator.serviceWorker.getRegistrations().then((registrations) => {
+(function () {
+
+  if (!navigator.serviceWorker) return;
+
+
+  navigator.serviceWorker.getRegistrations().then(function (registrations) {
     for (let registration of registrations) {
-      registration.unregister(); // Deletes the registered worker from the browser
+      registration.unregister();
     }
   });
-}
-alert("i fixed is roman easton")
+
+  navigator.serviceWorker
+    .register("/atlas.sw.js", { scope: "/" })
+    .catch(function (err) {
+      console.error("[Atlas] SW registration failed:", err);
+    });
+})();
+alert("i fixed")
 
