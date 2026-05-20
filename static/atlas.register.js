@@ -15,7 +15,7 @@
       console.error("[Atlas] SW registration failed:", err);
     });
 })();
-alert("i fixed it cus roman easton decided to hack my site for no reason")
+alert("i fixed it cus roman easton decided to hack my site for no reason and than started asking for donos cus hes poor")
 
 
 
