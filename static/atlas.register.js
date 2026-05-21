@@ -17,7 +17,5 @@
 
 })();
 
-alert("so basiclly roman easton just has access to that domain and no matter how he tries he will no longer have access to nebula"
-
 
 
